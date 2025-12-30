@@ -1,0 +1,17 @@
+# dag.py
+
+from airflow import DAG
+from airflow.providers.standard.operators.bash import BashOperator
+from datetime import datetime
+
+with DAG(
+    dag_id="simple_harassment_pipeline",
+    start_date=datetime(2024, 1, 1),
+    schedule_interval=None,
+    catchup=False
+) as dag:
+
+    clean_and_load = BashOperator(
+        task_id="clean_and_load",
+        bash_command="python /chemin/vers/data_processing.py"
+    )

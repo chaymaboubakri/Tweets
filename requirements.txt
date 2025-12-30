@@ -1,0 +1,6 @@
+pandas
+pymongo
+fastapi
+uvicorn
+python-dotenv
+apache-airflow
