@@ -1,17 +1,25 @@
-# dag.py
-
 from airflow import DAG
 from airflow.providers.standard.operators.bash import BashOperator
-from datetime import datetime
+from datetime import datetime, timedelta
+
+default_args = {
+    "owner": "airflow",
+    "depends_on_past": False,
+    "retries": 1,
+    "retry_delay": timedelta(minutes=5),
+}
 
 with DAG(
     dag_id="simple_harassment_pipeline",
-    start_date=datetime(2024, 1, 1),
+    default_args=default_args,
+    description="Clean and load cyberbullying tweets",
+    start_date=datetime(2025, 12, 29),
     schedule_interval=None,
-    catchup=False
+    catchup=False,
+    tags=["harassment", "etl"],
 ) as dag:
 
     clean_and_load = BashOperator(
         task_id="clean_and_load",
-        bash_command="python /chemin/vers/data_processing.py"
+        bash_command="python ./data_processing.py",
     )
